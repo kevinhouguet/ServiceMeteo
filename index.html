@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Service Méteo</title>
+</head>
+<body>
+  <main class="container">
+    <h1>Service Méteo</h1>
+    <h2>Saisissez une ville</h2>
+    <form action="/" action="GET">
+      <input type="text" name="city">
+      <input type="submit" value="Envoyer">
+    </form>
+
+    
+    <p class="city"></p>
+    <p class="pays"></p>
+    <p class="region"></p>
+
+    <p class="humidity"></p>
+    <p class="precip"></p>
+    <p class="temperature"></p>
+    <p class="feelslike"></p>
+    <p class="wind_dir"></p>
+    <p class="wind_speed"></p>
+
+  </main>
+  
+</body>
+<script type="text/javascript">
+  async function getData(){
+    const citySearch = (window.location.search).replace("?city=", "");
+    const api_key = 'e00bad965e81a8163f29b8aee621489f'
+    const request = `http://api.weatherstack.com/current?access_key=${api_key}&query=${citySearch}`
+    try {
+      const httpResponse = await fetch(request);
+      const data = await httpResponse.json()
+      console.log(data);
+
+      const cityElement = document.querySelector('.city');
+      cityElement.textContent = `Ville : ${data.location.name}`
+      const paysElement = document.querySelector('.pays');
+      paysElement.textContent = `Pays : ${data.location.country}`
+      const regionElement = document.querySelector('.region');
+      regionElement.textContent = `Region : ${data.location.region}`
+      const humidityElement = document.querySelector('.humidity');
+      humidityElement.textContent = `Humidité : ${data.current.humidity}%`
+      const precipElement = document.querySelector('.precip');
+      precipElement.textContent = `Precipitation : ${data.current.precip}`
+      const temperatureElement = document.querySelector('.temperature');
+      temperatureElement.textContent = `Temperature : ${data.current.temperature}`
+      const feelslikeElement = document.querySelector('.feelslike');
+      feelslikeElement.textContent = `Ressenti : ${data.current.feelslike}`
+      const wind_dirElement = document.querySelector('.wind_dir');
+      wind_dirElement.textContent = `Direction du vent : ${data.current.wind_dir}`
+      const wind_speedElement = document.querySelector('.wind_speed');
+      wind_speedElement.textContent = `Vitesse du vent : ${data.current.wind_speed}`
+
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  getData()
+
+
+</script>
+</html>
