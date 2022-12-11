@@ -24,7 +24,7 @@
     <p class="humidity"></p>
     <p class="precip"></p>
     <p class="temperature"></p>
-    <p class="feelslike"></p>
+    <!-- <p class="feelslike"></p> -->
     <p class="wind_dir"></p>
     <p class="wind_speed"></p>
 
@@ -33,40 +33,61 @@
 </body>
 <script type="text/javascript">
   const mySubmitFormElement = document.querySelector('form');
-  mySubmitFormElement.addEventListener('submit', (event) => {
+  mySubmitFormElement.addEventListener('submit', async (event) => {
     event.preventDefault();
-    getData();
+    const objLocation = await getLocationCoord();
+    const dataApi = await getData(objLocation.long,objLocation.lat);
+    console.log(dataApi);
+
+    const cityElement = document.querySelector('.city');
+    cityElement.textContent = `Ville : ${objLocation.name}`
+    const paysElement = document.querySelector('.pays');
+    paysElement.textContent = `Pays : ${objLocation.country}`
+    const regionElement = document.querySelector('.region');
+    regionElement.textContent = `Region : ${objLocation.region}`
+    const humidityElement = document.querySelector('.humidity');
+    humidityElement.textContent = `Humidité : ${dataApi.dataseries[0].rh2m}%`
+    const precipElement = document.querySelector('.precip');
+    precipElement.textContent = `Precipitation : ${dataApi.dataseries[0].prec_type}`
+    const temperatureElement = document.querySelector('.temperature');
+    temperatureElement.textContent = `Temperature : ${dataApi.dataseries[0].temp2m}`
+    // const feelslikeElement = document.querySelector('.feelslike');
+    // feelslikeElement.textContent = `Ressenti : ${dataApi.dataseries[0].rh2m}`
+    const wind_dirElement = document.querySelector('.wind_dir');
+    wind_dirElement.textContent = `Direction du vent : ${dataApi.dataseries[0].wind10m.direction}`
+    const wind_speedElement = document.querySelector('.wind_speed');
+    wind_speedElement.textContent = `Vitesse du vent : ${dataApi.dataseries[0].wind10m.speed}`
   });
-  async function getData(){
+
+  async function getLocationCoord(){
     const citySearch = document.querySelector('input[type=text]').value;
-    console.log(document.querySelector('input[type=text]'));
     const api_key = 'e00bad965e81a8163f29b8aee621489f'
     const request = `http://api.weatherstack.com/current?access_key=${api_key}&query=${citySearch}`
+
     try {
       const httpResponse = await fetch(request);
       const data = await httpResponse.json()
-      console.log(data);
 
-      const cityElement = document.querySelector('.city');
-      cityElement.textContent = `Ville : ${data.location.name}`
-      const paysElement = document.querySelector('.pays');
-      paysElement.textContent = `Pays : ${data.location.country}`
-      const regionElement = document.querySelector('.region');
-      regionElement.textContent = `Region : ${data.location.region}`
-      const humidityElement = document.querySelector('.humidity');
-      humidityElement.textContent = `Humidité : ${data.current.humidity}%`
-      const precipElement = document.querySelector('.precip');
-      precipElement.textContent = `Precipitation : ${data.current.precip}`
-      const temperatureElement = document.querySelector('.temperature');
-      temperatureElement.textContent = `Temperature : ${data.current.temperature}`
-      const feelslikeElement = document.querySelector('.feelslike');
-      feelslikeElement.textContent = `Ressenti : ${data.current.feelslike}`
-      const wind_dirElement = document.querySelector('.wind_dir');
-      wind_dirElement.textContent = `Direction du vent : ${data.current.wind_dir}`
-      const wind_speedElement = document.querySelector('.wind_speed');
-      wind_speedElement.textContent = `Vitesse du vent : ${data.current.wind_speed}`
+      const returnObj = {
+        "long" : data.location.lon,
+        "lat" : data.location.lat,
+        "name" : data.location.name,
+        "country" : data.location.country,
+        "region" : data.location.region,
+      }
+      return returnObj;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-      
+  async function getData(longitude,lattitude){
+    const query = `https://www.7timer.info/bin/astro.php?lon=${longitude}&lat=${lattitude}&ac=0&unit=metric&output=json&tzshift=1`
+    
+    try {
+      const httpResponse = await fetch(query);
+      const data = await httpResponse.json();
+      return data;
     } catch (error) {
       console.log(error);
     }
