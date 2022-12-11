@@ -11,7 +11,7 @@
   <main class="container">
     <h1>Service Méteo</h1>
     <h2>Saisissez une ville</h2>
-    <form action="/" action="GET">
+    <form action="#" action="GET">
       <input type="text" name="city">
       <input type="submit" value="Envoyer">
     </form>
@@ -32,8 +32,14 @@
   
 </body>
 <script type="text/javascript">
+  const mySubmitFormElement = document.querySelector('form');
+  mySubmitFormElement.addEventListener('submit', (event) => {
+    event.preventDefault();
+    getData();
+  });
   async function getData(){
-    const citySearch = (window.location.search).replace("?city=", "");
+    const citySearch = document.querySelector('input[type=text]').value;
+    console.log(document.querySelector('input[type=text]'));
     const api_key = 'e00bad965e81a8163f29b8aee621489f'
     const request = `http://api.weatherstack.com/current?access_key=${api_key}&query=${citySearch}`
     try {
@@ -65,9 +71,5 @@
       console.log(error);
     }
   }
-
-  getData()
-
-
 </script>
 </html>
