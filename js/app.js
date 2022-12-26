@@ -5,30 +5,51 @@ const app = {
   },
   handleOnSubmitForm: async function (event){
     event.preventDefault();
-    console.log('test')
+    const formElem = event.currentTarget;
     const objLocation = await locationModule.getLocationCoord();
     const dataApi = await meteoModule.getData(objLocation.long,objLocation.lat);
     console.log(dataApi);
 
-    const cityElement = document.querySelector('.city');
-    cityElement.textContent = `Ville : ${objLocation.name}`
-    const paysElement = document.querySelector('.pays');
-    paysElement.textContent = `Pays : ${objLocation.country}`
-    const regionElement = document.querySelector('.region');
-    regionElement.textContent = `Region : ${objLocation.region}`
-    const humidityElement = document.querySelector('.humidity');
-    humidityElement.textContent = `Humidité : ${dataApi.dataseries[0].rh2m}%`
-    const precipElement = document.querySelector('.precip');
-    precipElement.textContent = `Precipitation : ${dataApi.dataseries[0].prec_type}`
-    const temperatureElement = document.querySelector('.temperature');
-    temperatureElement.textContent = `Temperature : ${dataApi.dataseries[0].temp2m}`
-    // const feelslikeElement = document.querySelector('.feelslike');
-    // feelslikeElement.textContent = `Ressenti : ${dataApi.dataseries[0].rh2m}`
-    const wind_dirElement = document.querySelector('.wind_dir');
-    wind_dirElement.textContent = `Direction du vent : ${dataApi.dataseries[0].wind10m.direction}`
-    const wind_speedElement = document.querySelector('.wind_speed');
-    wind_speedElement.textContent = `Vitesse du vent : ${dataApi.dataseries[0].wind10m.speed}`
+    // on vide les datas de la meteo avant d'en demander de nouveau
+    const meteoContentElem = document.querySelector('.meteo-content');
+    if(meteoContentElem){
+      meteoContentElem.textContent = '';
+    }
+
+    app.makeDataInDOM(objLocation, dataApi);
+    
+    formElem.reset()
+  },
+  /**
+   * 
+   * @param {{name:String, country: String, region: String}} dataLocation 
+   * @param {{dataseries: Array}} dataValue 
+   */
+  makeDataInDOM(dataLocation, dataValue){
+    const appContainer = document.querySelector('.container');
+    const templateMeteo = document.getElementById('meteo');
+    const cloneTemplate = document.importNode(templateMeteo.content, true);
+
+    const cityElement = cloneTemplate.querySelector('.city');
+    const paysElement = cloneTemplate.querySelector('.pays');
+    const regionElement = cloneTemplate.querySelector('.region');
+    const humidityElement = cloneTemplate.querySelector('.humidity');
+    const precipElement = cloneTemplate.querySelector('.precip');
+    const temperatureElement = cloneTemplate.querySelector('.temperature');
+    const wind_dirElement = cloneTemplate.querySelector('.wind_dir');
+    const wind_speedElement = cloneTemplate.querySelector('.wind_speed');
+
+    cityElement.textContent = `Ville : ${dataLocation.name}`
+    paysElement.textContent = `Pays : ${dataLocation.country}`
+    regionElement.textContent = `Region : ${dataLocation.region}`
+    humidityElement.textContent = `Humidité : ${dataValue.dataseries[0].rh2m}%`
+    precipElement.textContent = `Precipitation : ${dataValue.dataseries[0].prec_type}`
+    temperatureElement.textContent = `Temperature : ${dataValue.dataseries[0].temp2m}`
+    wind_dirElement.textContent = `Direction du vent : ${dataValue.dataseries[0].wind10m.direction}`
+    wind_speedElement.textContent = `Vitesse du vent : ${dataValue.dataseries[0].wind10m.speed}`
+
+    appContainer.append(cloneTemplate);
   }
 }
 
-app.init()
+app.init();
