@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <title>Service Méteo</title>
 </head>
 <body>
@@ -31,66 +31,7 @@
   </main>
   
 </body>
-<script type="text/javascript">
-  const mySubmitFormElement = document.querySelector('form');
-  mySubmitFormElement.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const objLocation = await getLocationCoord();
-    const dataApi = await getData(objLocation.long,objLocation.lat);
-    console.log(dataApi);
-
-    const cityElement = document.querySelector('.city');
-    cityElement.textContent = `Ville : ${objLocation.name}`
-    const paysElement = document.querySelector('.pays');
-    paysElement.textContent = `Pays : ${objLocation.country}`
-    const regionElement = document.querySelector('.region');
-    regionElement.textContent = `Region : ${objLocation.region}`
-    const humidityElement = document.querySelector('.humidity');
-    humidityElement.textContent = `Humidité : ${dataApi.dataseries[0].rh2m}%`
-    const precipElement = document.querySelector('.precip');
-    precipElement.textContent = `Precipitation : ${dataApi.dataseries[0].prec_type}`
-    const temperatureElement = document.querySelector('.temperature');
-    temperatureElement.textContent = `Temperature : ${dataApi.dataseries[0].temp2m}`
-    // const feelslikeElement = document.querySelector('.feelslike');
-    // feelslikeElement.textContent = `Ressenti : ${dataApi.dataseries[0].rh2m}`
-    const wind_dirElement = document.querySelector('.wind_dir');
-    wind_dirElement.textContent = `Direction du vent : ${dataApi.dataseries[0].wind10m.direction}`
-    const wind_speedElement = document.querySelector('.wind_speed');
-    wind_speedElement.textContent = `Vitesse du vent : ${dataApi.dataseries[0].wind10m.speed}`
-  });
-
-  async function getLocationCoord(){
-    const citySearch = document.querySelector('input[type=text]').value;
-    const api_key = 'e00bad965e81a8163f29b8aee621489f'
-    const request = `http://api.weatherstack.com/current?access_key=${api_key}&query=${citySearch}`
-
-    try {
-      const httpResponse = await fetch(request);
-      const data = await httpResponse.json()
-
-      const returnObj = {
-        "long" : data.location.lon,
-        "lat" : data.location.lat,
-        "name" : data.location.name,
-        "country" : data.location.country,
-        "region" : data.location.region,
-      }
-      return returnObj;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getData(longitude,lattitude){
-    const query = `https://www.7timer.info/bin/astro.php?lon=${longitude}&lat=${lattitude}&ac=0&unit=metric&output=json&tzshift=1`
-    
-    try {
-      const httpResponse = await fetch(query);
-      const data = await httpResponse.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-</script>
+  <script src="js/getlocation.js"></script>
+  <script src="js/meteo.js"></script>
+  <script src="js/app.js"></script>
 </html>
