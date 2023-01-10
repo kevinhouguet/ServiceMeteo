@@ -28,7 +28,7 @@ const app = {
     // on vide les datas de la meteo avant d'en demander de nouveau
     const meteoContentElem = document.querySelector('.meteo-content');
     if(meteoContentElem){
-      meteoContentElem.textContent = '';
+      meteoContentElem.remove();
     }
 
     app.makeDataInDOM(objLocation, dataApi);
@@ -41,7 +41,7 @@ const app = {
    * @param {{dataseries: Array}} dataValue 
    */
   makeDataInDOM(dataLocation, dataValue){
-    const appContainer = document.querySelector('.container');
+    const appContainerAside = document.querySelector('.container .aside');
     const templateMeteo = document.getElementById('meteo');
     const cloneTemplate = document.importNode(templateMeteo.content, true);
 
@@ -54,16 +54,16 @@ const app = {
     const wind_dirElement = cloneTemplate.querySelector('.wind_dir');
     const wind_speedElement = cloneTemplate.querySelector('.wind_speed');
 
-    cityElement.textContent = `Ville : ${dataLocation.name}`
+    cityElement.textContent = `Météo pour la ville de ${dataLocation.name}`
     paysElement.textContent = `Pays : ${dataLocation.country}`
     regionElement.textContent = `Region : ${dataLocation.region}`
-    humidityElement.textContent = `Humidité : ${dataValue.dataseries[0].rh2m}%`
-    precipElement.textContent = `Precipitation : ${dataValue.dataseries[0].prec_type}`
-    temperatureElement.textContent = `Temperature : ${dataValue.dataseries[0].temp2m}`
-    wind_dirElement.textContent = `Direction du vent : ${dataValue.dataseries[0].wind10m.direction}`
+    humidityElement.textContent = `Taux d'Humidité : ${dataValue.dataseries[0].rh2m}%`
+    precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataValue.dataseries[0].prec_type)}`
+    temperatureElement.textContent = `Temperature : ${dataValue.dataseries[0].temp2m} C°`
+    wind_dirElement.textContent = `Direction du vent : ${meteoModule.getWindDirection(dataValue.dataseries[0].wind10m.direction)}`
     wind_speedElement.textContent = `Vitesse du vent : ${dataValue.dataseries[0].wind10m.speed}`
 
-    appContainer.append(cloneTemplate);
+    appContainerAside.append(cloneTemplate);
   },
 
   async handleHitKeyboardLetters(event){

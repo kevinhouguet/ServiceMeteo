@@ -12,6 +12,27 @@ body {
 
   min-height: 100vh;
   font-family: sans-serif;
+
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container section{
+  width: 50%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container h1 {
@@ -31,7 +52,7 @@ body {
   /* 
     position relative pour la proposition de ville
   */
-  /* position: relative; */
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,12 +88,17 @@ body {
   display: none;
 }
 
+.container form .input-group {
+  position: relative;
+}
+
 .input-proposition-container {
-  /* position:absolute;
-  bottom: -1;
-  left: 0; */
+  position:absolute;
+  top: 40px;
+  left: 0;
   width: 404px;
   border: 1px solid black;
+  background-color: white;
   /* padding: 0 1rem; */
   
 }
@@ -86,4 +112,9 @@ body {
 .input-proposition:hover {
   background-color: lightblue;
   cursor: pointer;
+}
+
+.aside {
+  background-color: rgb(88, 94, 235);
+  color: white;
 }

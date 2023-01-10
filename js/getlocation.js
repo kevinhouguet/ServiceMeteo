@@ -8,26 +8,18 @@ const locationModule = {
       const httpResponse = await fetch(request);
       const data = await httpResponse.json()
 
-      console.log(data);
-      console.log(Object.keys(data));
-      console.log(data['features']);
-
-      // const returnObj = {
-      //   "long" : data.location.lon,
-      //   "lat" : data.location.lat,
-      //   "name" : data.location.name,
-      //   "country" : 'France',
-      //   "region" : data.location.region,
-      // }
-
-      // const returnObj = {
-      //   "long" : data.features.geometry.coordinates[0],
-      //   "lat" : data.features.geometry.coordinates[1],
-      //   "name" : data.features.properties.nom,
-      //   "country" : 'France',
-      //   "region" :data.features.properties.codeRegion,
-      // }
-      // return returnObj;
+      // console.log(data);
+      // console.log(Object.keys(data));
+      // console.log(data['features']);
+      
+      const returnObj = {
+        "long" : data.features[0].geometry.coordinates[0],
+        "lat" : data.features[0].geometry.coordinates[1],
+        "name" : data.features[0].properties.nom,
+        "country" : 'France',
+        "region" : await locationModule.getRegion(data.features[0].properties.codeRegion),
+      }
+      return returnObj;
     } catch (error) {
       console.log(error);
     }
@@ -45,5 +37,18 @@ const locationModule = {
     } catch (e) {
       console.log(e);
     }
+  },
+  getRegion: async function(regionCode){
+    try {
+      const httpResponse = await fetch(`https://geo.api.gouv.fr/regions/${regionCode}`);
+      
+      if(httpResponse.ok){
+        const data = await httpResponse.json();
+
+        return data.nom;
+      }
+    } catch (e) {
+      console.log(e);
+    }    
   }
 }

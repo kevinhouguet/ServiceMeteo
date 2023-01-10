@@ -1,6 +1,6 @@
 const propositionModule = {
   createPropositionsInDOM(data){
-    const formElem = document.querySelector('#city-form');
+    const formElem = document.querySelector('#city-form .input-group');
 
     const currentPropositionContainer = formElem.querySelector('.input-proposition-container');
     if(currentPropositionContainer){
@@ -10,14 +10,12 @@ const propositionModule = {
     const propositionContainer = document.createElement('div');
     propositionContainer.classList.add('input-proposition-container');
     
-    console.log(data);
-
     data.forEach(proposition => {
       const propositionElem = document.createElement('p');
       propositionElem.classList.add('input-proposition');
       propositionElem.dataset.codeinsee = proposition.code;
       propositionElem.dataset.city = proposition.nom;
-      propositionElem.textContent = `${proposition.nom}, ${proposition.codesPostaux[0]}`;
+      propositionElem.textContent = `${proposition.nom} (${proposition.codesPostaux[0]})`;
 
       propositionContainer.appendChild(propositionElem);
     });
@@ -25,9 +23,10 @@ const propositionModule = {
     propositionContainer.addEventListener('click', propositionModule.handleClickOnCityProposition);
 
     formElem.appendChild(propositionContainer);
-    
   },
   handleClickOnCityProposition(event){
+    const formElem = document.querySelector('#city-form');
+    
     const cityElem = event.target;
     const city = cityElem.dataset.city;
     const codeInsee = cityElem.dataset.codeinsee;
@@ -36,5 +35,10 @@ const propositionModule = {
     const inputCode = cityElem.closest('#city-form').querySelector('input[name=code]');
     inputCity.value = city;
     inputCode.value = codeInsee;
+
+    const currentPropositionContainer = formElem.querySelector('.input-proposition-container');
+    if(currentPropositionContainer){
+      currentPropositionContainer.remove()
+    }
   }
 }
