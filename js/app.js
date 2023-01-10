@@ -1,14 +1,30 @@
 const app = {
   init: function (){
+    app.loadListeners();
+  },
+  loadListeners: function (){
+    // Ajout ecouteur sur la soumission du formulaire
     const mySubmitFormElement = document.querySelector('form');
     mySubmitFormElement.addEventListener('submit', app.handleOnSubmitForm);
+
+    // Ajout ecouteur sur chaque lettres tappées pour proposer des lieux
+    const inputFormElem = document.querySelector('form input[type="text"]');
+    inputFormElem.addEventListener('keyup', app.handleHitKeyboardLetters)
+
+    // Ajout ecouteur sur click dans la proposition des villes
+    const propositionElem = document.querySelector('.input-proposition-container');
+    propositionElem.addEventListener('click', app.handleClickOnCityProposition);
   },
   handleOnSubmitForm: async function (event){
     event.preventDefault();
     const formElem = event.currentTarget;
-    const objLocation = await locationModule.getLocationCoord();
+    const formData = new FormData(formElem);
+    const citySearch = formData.get('city');
+    const codeInsee = formData.get('code');
+    console.log(codeInsee)
+    const objLocation = await locationModule.getLocationCoord(codeInsee);
     const dataApi = await meteoModule.getData(objLocation.long,objLocation.lat);
-    console.log(dataApi);
+    // console.log(dataApi);
 
     // on vide les datas de la meteo avant d'en demander de nouveau
     const meteoContentElem = document.querySelector('.meteo-content');
@@ -17,7 +33,7 @@ const app = {
     }
 
     app.makeDataInDOM(objLocation, dataApi);
-    
+
     formElem.reset()
   },
   /**
@@ -49,6 +65,23 @@ const app = {
     wind_speedElement.textContent = `Vitesse du vent : ${dataValue.dataseries[0].wind10m.speed}`
 
     appContainer.append(cloneTemplate);
+  },
+
+  handleHitKeyboardLetters(event){
+    // console.log(event.currentTarget);
+    // console.log(event.currentTarget.value);
+
+    locationModule.getLocationCompletion(event.currentTarget.value)
+  },
+  handleClickOnCityProposition(event){
+    const cityElem = event.target;
+    const city = cityElem.dataset.city;
+    const codeInsee = cityElem.dataset.codeinsee;
+
+    const inputCity = cityElem.closest('#city-form').querySelector('input[name=city]');
+    const inputCode = cityElem.closest('#city-form').querySelector('input[name=code]');
+    inputCity.value = city;
+    inputCode.value = codeInsee;
   }
 }
 

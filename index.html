@@ -11,9 +11,16 @@
   <main class="container">
     <h1>Service Méteo</h1>
     <h2>Saisissez une ville</h2>
-    <form action="#" action="GET">
-      <input type="text" name="city">
-      <input type="submit" value="Envoyer">
+    <form action="#" action="GET" id="city-form">
+      <div class="input-group">
+        <input type="text" name="city">
+        <input type="hidden" name="code" value="26362">
+        <input type="submit" value="Envoyer">
+      </div>
+      <div class="input-proposition-container">
+        <p class="input-proposition" data-codeInsee="26362" data-city="Valence">Valence, 26000</p>
+        <p class="input-proposition" data-codeInsee="55573" data-city="Void-Vacon">Void-Vacon, 55573</p>
+      </div>       
     </form>
 
     <template id="meteo">

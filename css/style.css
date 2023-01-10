@@ -28,6 +28,14 @@ body {
 
 .container form {
   text-align: center;
+  /* 
+    position relative pour la proposition de ville
+  */
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .container form input[type=text], .container form input[type=submit] {
@@ -53,4 +61,30 @@ body {
 
 .container form input[type=text]:focus {
   background-color: rgb(241, 240, 255);
+}
+
+.disable {
+  display: none;
+}
+
+.input-proposition-container {
+  /* position:absolute;
+  bottom: -1;
+  left: 0; */
+  width: 404px;
+  max-height: 200px;
+  border: 1px solid black;
+  /* padding: 0 1rem; */
+  
+}
+
+.input-proposition {
+  padding: 1rem;
+  margin: 0;
+  display: flex;
+}
+
+.input-proposition:hover {
+  background-color: lightblue;
+  cursor: pointer;
 }
