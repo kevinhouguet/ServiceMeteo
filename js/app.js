@@ -9,17 +9,16 @@ const app = {
 
     // Ajout ecouteur sur chaque lettres tappées pour proposer des lieux
     const inputFormElem = document.querySelector('form input[type="text"]');
-    inputFormElem.addEventListener('keyup', app.handleHitKeyboardLetters)
+    inputFormElem.addEventListener('keyup', app.handleHitKeyboardLetters);
 
     // Ajout ecouteur sur click dans la proposition des villes
-    const propositionElem = document.querySelector('.input-proposition-container');
-    propositionElem.addEventListener('click', app.handleClickOnCityProposition);
+    // propositionElem.addEventListener('click', app.handleClickOnCityProposition);
   },
   handleOnSubmitForm: async function (event){
     event.preventDefault();
     const formElem = event.currentTarget;
     const formData = new FormData(formElem);
-    const citySearch = formData.get('city');
+    // const citySearch = formData.get('city');
     const codeInsee = formData.get('code');
     console.log(codeInsee)
     const objLocation = await locationModule.getLocationCoord(codeInsee);
@@ -67,22 +66,13 @@ const app = {
     appContainer.append(cloneTemplate);
   },
 
-  handleHitKeyboardLetters(event){
+  async handleHitKeyboardLetters(event){
     // console.log(event.currentTarget);
     // console.log(event.currentTarget.value);
 
-    locationModule.getLocationCompletion(event.currentTarget.value)
-  },
-  handleClickOnCityProposition(event){
-    const cityElem = event.target;
-    const city = cityElem.dataset.city;
-    const codeInsee = cityElem.dataset.codeinsee;
-
-    const inputCity = cityElem.closest('#city-form').querySelector('input[name=city]');
-    const inputCode = cityElem.closest('#city-form').querySelector('input[name=code]');
-    inputCity.value = city;
-    inputCode.value = codeInsee;
-  }
+    const data = await locationModule.getLocationCompletion(event.currentTarget.value);
+    propositionModule.createPropositionsInDOM(data);
+  },  
 }
 
 app.init();

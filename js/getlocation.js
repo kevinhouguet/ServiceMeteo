@@ -40,7 +40,8 @@ const locationModule = {
       const httpResponse = await fetch(request);
       const data = await httpResponse.json();
 
-      // console.log(data);
+      // console.log(data)
+      return data;
     } catch (e) {
       console.log(e);
     }
