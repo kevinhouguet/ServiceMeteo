@@ -54,11 +54,11 @@ const app = {
     const wind_dirElement = cloneTemplate.querySelector('.wind_dir');
     const wind_speedElement = cloneTemplate.querySelector('.wind_speed');
 
-    cityElement.textContent = `Météo pour la ville de ${dataLocation.name}`
-    paysElement.textContent = `Pays : ${dataLocation.country}`
-    regionElement.textContent = `Region : ${dataLocation.region}`
+    cityElement.textContent = `${dataLocation.name}`
+    // paysElement.textContent = `Pays : ${dataLocation.country}`
+    // regionElement.textContent = `Region : ${dataLocation.region}`
     humidityElement.textContent = `Taux d'Humidité : ${dataValue.dataseries[0].rh2m}%`
-    precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataValue.dataseries[0].prec_type)}`
+    // precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataValue.dataseries[0].prec_type)}`
     temperatureElement.textContent = `Temperature : ${dataValue.dataseries[0].temp2m} C°`
     wind_dirElement.textContent = `Direction du vent : ${meteoModule.getWindDirection(dataValue.dataseries[0].wind10m.direction)}`
     wind_speedElement.textContent = `Vitesse du vent : ${dataValue.dataseries[0].wind10m.speed}`
