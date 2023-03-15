@@ -1,3 +1,7 @@
+import {propositionModule} from './propositions.js';
+import {locationModule} from './getlocation.js';
+import {meteoModule} from './meteo.js';
+
 const app = {
   init: function (){
     app.loadListeners();

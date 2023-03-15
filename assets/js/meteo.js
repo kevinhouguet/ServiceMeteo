@@ -1,4 +1,4 @@
-const meteoModule = {
+export const meteoModule = {
   getData: async function (longitude,lattitude){
     const query = `https://www.7timer.info/bin/astro.php?lon=${longitude}&lat=${lattitude}&ac=0&unit=metric&output=json&tzshift=1`
     
