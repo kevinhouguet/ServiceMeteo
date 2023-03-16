@@ -7,4 +7,9 @@
 
 ## TODO
 
-- [ ] autocompletion de ville avec l'api geo gouv
+- [ ] prevoir le forecast
+- [ ] gestion de la nuit
+  - [ ] images
+  - [ ] recup sun set et sun rise
+- [ ] gerer la direction du vent
+- [ ] arrondir le chiffre des temperatures
