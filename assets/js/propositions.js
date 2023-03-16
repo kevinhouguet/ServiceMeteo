@@ -1,4 +1,4 @@
-const propositionModule = {
+export const propositionModule = {
   createPropositionsInDOM(data){
     const formElem = document.querySelector('#city-form .input-group');
 

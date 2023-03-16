@@ -1,4 +1,4 @@
-const locationModule = {
+export const locationModule = {
   getLocationCoord: async function(code){
     // const api_key = 'e00bad965e81a8163f29b8aee621489f'
     // const request = `http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`
