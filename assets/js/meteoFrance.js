@@ -18,11 +18,11 @@ export const meteoFranceModule = {
       const indexOfCurrentTime = data.hourly.time.findIndex(hourlyTime => hourlyTime === currentWeather.time);
 
       const imgMeteo = {
-        sunny: './assets/img/ph_sun.svg',
-        cloudy: './assets/img/carbon_cloudy.svg',
-        rainny: './assets/img/carbon_rain-heavy.svg',
-        snowy: './assets/img/ph_cloud-snow-light.svg',
-        cloudSunny: './assets/img/ph_cloud-sun-thin.svg',
+        sunny: './img/ph_sun.svg',
+        cloudy: './img/carbon_cloudy.svg',
+        rainny: './img/carbon_rain-heavy.svg',
+        snowy: './img/ph_cloud-snow-light.svg',
+        cloudSunny: './img/ph_cloud-sun-thin.svg',
       }
 
       const wmoTableTrad = {
