@@ -39,7 +39,8 @@ body {
 .container h1 {
   text-transform: uppercase;
   color: #585EEB;
-  font-size: 64px;
+  font-size: 3rem;
+  letter-spacing: 5px;
 }
 
 .container h2 {
@@ -62,9 +63,9 @@ body {
 
 .container form input[type=text], .container form input[type=submit] {
   border: 1px solid #4043aa;
-  font-size: 24px;
+  font-size: 12px;
   margin: 0;
-  padding: 5px;
+  padding: 10px;
 }
 .container form input[type=submit] {
   border-left: none;
@@ -79,6 +80,7 @@ body {
   border-radius: 5px 0 0 5px;
   padding-left: 5px;
   text-align: left;
+  width: 300px;
 }
 
 .container form input[type=text]:focus {
@@ -115,6 +117,7 @@ body {
   cursor: pointer;
 }
 
+
 .aside {
   background-color: rgb(88, 94, 235);
   color: white;
@@ -123,6 +126,8 @@ body {
 .meteo_title {
   font-size: 2.3rem;
   letter-spacing: 5px;
+  width: 475px;
+  line-height: 3rem;
 }
 
 .temperature {
@@ -130,10 +135,24 @@ body {
   font-weight: bold;
 }
 
-.flex {
-  display: flex;
-}
-
 .meteo-content{
   text-align: center;
+}
+
+.wind_infos{
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 2.25rem;
+}
+
+.wind_content{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.humidity {
+  font-size: 2.25rem;
+  font-weight: bold;
 }
