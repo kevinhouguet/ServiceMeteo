@@ -1,6 +1,15 @@
+import {propositionModule} from './propositions.js';
+import {locationModule} from './getlocation.js';
+import {meteoModule} from './meteo.js';
+import { meteoFranceModule } from './meteoFrance.js';
+
 const app = {
   init: function (){
     app.loadListeners();
+    (async () => {
+      console.log(await meteoFranceModule.getLocalTimeCurrentData(4.91, 44.93));
+
+    })()
   },
   loadListeners: function (){
     // Ajout ecouteur sur la soumission du formulaire
@@ -22,8 +31,8 @@ const app = {
     const codeInsee = formData.get('code');
     console.log(codeInsee)
     const objLocation = await locationModule.getLocationCoord(codeInsee);
-    const dataApi = await meteoModule.getData(objLocation.long,objLocation.lat);
-    // console.log(dataApi);
+    const dataMeteo = await meteoFranceModule.getLocalTimeCurrentData(objLocation.long,objLocation.lat);
+    // console.log(dataMeteo);
 
     // on vide les datas de la meteo avant d'en demander de nouveau
     const meteoContentElem = document.querySelector('.meteo-content');
@@ -31,23 +40,22 @@ const app = {
       meteoContentElem.remove();
     }
 
-    app.makeDataInDOM(objLocation, dataApi);
+    app.makeDataInDOM(objLocation, dataMeteo);
 
     formElem.reset()
   },
   /**
    * 
    * @param {{name:String, country: String, region: String}} dataLocation 
-   * @param {{dataseries: Array}} dataValue 
+   * @param {{dataseries: Array}} dataMeteoValue 
    */
-  makeDataInDOM(dataLocation, dataValue){
+  makeDataInDOM(dataLocation, dataMeteoValue){
     const appContainerAside = document.querySelector('.container .aside');
     const templateMeteo = document.getElementById('meteo');
     const cloneTemplate = document.importNode(templateMeteo.content, true);
 
     const cityElement = cloneTemplate.querySelector('.city');
-    const paysElement = cloneTemplate.querySelector('.pays');
-    const regionElement = cloneTemplate.querySelector('.region');
+    const imgMeteo = cloneTemplate.querySelector('.meteo_image');
     const humidityElement = cloneTemplate.querySelector('.humidity');
     const precipElement = cloneTemplate.querySelector('.precip');
     const temperatureElement = cloneTemplate.querySelector('.temperature');
@@ -55,20 +63,17 @@ const app = {
     const wind_speedElement = cloneTemplate.querySelector('.wind_speed');
 
     cityElement.textContent = `${dataLocation.name}`
-    // paysElement.textContent = `Pays : ${dataLocation.country}`
-    // regionElement.textContent = `Region : ${dataLocation.region}`
-    humidityElement.textContent = `Taux d'Humidité : ${dataValue.dataseries[0].rh2m}%`
-    // precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataValue.dataseries[0].prec_type)}`
-    temperatureElement.textContent = `Temperature : ${dataValue.dataseries[0].temp2m} C°`
-    wind_dirElement.textContent = `Direction du vent : ${meteoModule.getWindDirection(dataValue.dataseries[0].wind10m.direction)}`
-    wind_speedElement.textContent = `Vitesse du vent : ${dataValue.dataseries[0].wind10m.speed}`
+    imgMeteo.src = `${dataMeteoValue.imgMeteo}`;
+    humidityElement.textContent = `Humidité ${dataMeteoValue.relativehumidity_2m}%`
+    // precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataMeteoValue.dataseries[0].prec_type)}`
+    temperatureElement.textContent = `${dataMeteoValue.temperature}°C`
+    wind_dirElement.textContent = `${dataMeteoValue.winddirection}`
+    wind_speedElement.textContent = `${dataMeteoValue.windspeed} km/h`
 
     appContainerAside.append(cloneTemplate);
   },
 
   async handleHitKeyboardLetters(event){
-    // console.log(event.currentTarget);
-    // console.log(event.currentTarget.value);
 
     const data = await locationModule.getLocationCompletion(event.currentTarget.value);
     propositionModule.createPropositionsInDOM(data);
