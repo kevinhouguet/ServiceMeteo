@@ -59,14 +59,19 @@ const app = {
     const humidityElement = cloneTemplate.querySelector('.humidity');
     const precipElement = cloneTemplate.querySelector('.precip');
     const temperatureElement = cloneTemplate.querySelector('.temperature');
+    const windImageElement = cloneTemplate.querySelector('.wind_image');
     const wind_dirElement = cloneTemplate.querySelector('.wind_dir');
     const wind_speedElement = cloneTemplate.querySelector('.wind_speed');
+
+    const windImageUrl = new URL('./assets/img/bi_wind.svg', import.meta.url).href;
+    console.log(windImageUrl)
 
     cityElement.textContent = `${dataLocation.name}`
     imgMeteo.src = `${dataMeteoValue.imgMeteo}`;
     humidityElement.textContent = `Humidité ${dataMeteoValue.relativehumidity_2m}%`
     // precipElement.textContent = `Precipitation : ${meteoModule.getPrecipitation(dataMeteoValue.dataseries[0].prec_type)}`
     temperatureElement.textContent = `${dataMeteoValue.temperature}°C`
+    windImageElement.src = windImageUrl;
     wind_dirElement.textContent = `${dataMeteoValue.winddirection}`
     wind_speedElement.textContent = `${dataMeteoValue.windspeed} km/h`
 
