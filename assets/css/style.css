@@ -156,3 +156,38 @@ body {
   font-size: 2.25rem;
   font-weight: bold;
 }
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+  .container{
+    flex-direction: column;
+  }
+  .container h1{
+    font-size: 1.9rem;
+    text-align: center;
+  }
+  .container form input[type=text], .container form input[type=submit] {
+    box-sizing: border-box;
+    border: 1px solid #4043aa;
+    border-radius: 5px;
+  }
+  .container form input[type=text]{
+    margin-bottom: 16px;
+  }
+  .container form input[type=submit]{
+    margin:0;
+  }
+  .container section {
+    width: 100%;
+    /* height: auto; */
+  }
+  .input-group{
+    display: flex;
+    flex-direction: column;
+  }
+  .meteo_title{
+    font-size: 1.9rem;
+    width: auto;
+  }
+}
