@@ -10,6 +10,12 @@ const app = {
       console.log(await meteoFranceModule.getLocalTimeCurrentData(4.91, 44.93));
 
     })()
+    // test if mobile to apply event on submit
+    // const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+
+    // if (isMobile) {
+    //   console.log('media screen is mobile')
+    // }
   },
   loadListeners: function (){
     // Ajout ecouteur sur la soumission du formulaire
