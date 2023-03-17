@@ -178,6 +178,9 @@ body {
   .container form input[type=submit]{
     margin:0;
   }
+  .form{
+    margin-bottom: 24px;
+  }
   .container section {
     width: 100%;
     /* height: auto; */
@@ -189,5 +192,14 @@ body {
   .meteo_title{
     font-size: 1.9rem;
     width: auto;
+  }
+  .meteo_image, .wind_image{
+    width: 80px;
+  }
+  .temperature{
+    font-size: 4rem;
+  }
+  .wind_infos, .humidity{
+    font-size: 1.25rem;
   }
 }
