@@ -7,6 +7,7 @@
 
 ## TODO
 
+- [ ] Responsive
 - [ ] prevoir le forecast
 - [ ] gestion de la nuit
   - [ ] images
